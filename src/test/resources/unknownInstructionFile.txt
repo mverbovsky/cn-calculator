@@ -1,0 +1,4 @@
+add 2
+
+mltiply 3
+apply 4

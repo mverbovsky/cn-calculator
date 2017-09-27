@@ -1,0 +1,4 @@
+multiply 9
+apply 5
+
+result 45

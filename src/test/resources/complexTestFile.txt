@@ -1,0 +1,6 @@
+add 2
+multiply 3
+divide 2
+add 12.6
+subtract 8
+apply 4
