@@ -1,4 +1,4 @@
-#Simple calculator
+# Simple calculator
 
 Simple calculator application which loads instructions from a given file. 
 Instructions comprise of a keyword and a number that are separated
@@ -9,7 +9,7 @@ has to be “apply” and a number (e.g., “apply 3”). The calculator is
 then initialised with that number and the previous instructions
 are applied to that number.
 
-####Example
+#### Example
 ```
 [Input from file]
 add 2
@@ -26,7 +26,7 @@ Check out the project using a Git clone command:
 git clone https://github.com/mverbovsky/cn-calculator.git
 ```
 
-##Build Instructions
+## Build Instructions
 Project is tested to build on Java 8. It uses Maven as its build system
 and should run on Maven 3.0 and above.
 
