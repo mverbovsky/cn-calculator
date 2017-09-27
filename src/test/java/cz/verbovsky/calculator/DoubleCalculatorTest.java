@@ -44,14 +44,14 @@ class DoubleCalculatorTest {
     void calculate_NullParam_ExceptionThrown() {
         Throwable exception = assertThrows(NullPointerException.class,
                 () -> new DoubleCalculator().calculate(null));
-        assertEquals(exception.getMessage(), "Instructions must not be null.");
+        assertEquals("Instructions must not be null.", exception.getMessage());
     }
 
     @Test
     void calculate_EmptyInstructions_ExceptionThrown() {
         Throwable exception = assertThrows(IllegalArgumentException.class,
                 () -> new DoubleCalculator().calculate(new LinkedList<>()));
-        assertEquals(exception.getMessage(), "Instructions must not be empty.");
+        assertEquals("Instructions must not be empty.", exception.getMessage());
     }
 
     @Test
@@ -69,7 +69,7 @@ class DoubleCalculatorTest {
 
             new DoubleCalculator().calculate(instructions);
         });
-        assertEquals(exception.getMessage(), "The last instruction has to be initialization instruction.");
+        assertEquals("The last instruction has to be initialization instruction.", exception.getMessage());
     }
 
 }

@@ -15,21 +15,21 @@ class DoubleInstructionParserTest {
     void parse_NullParam_ExceptionThrown() {
         Throwable exception = assertThrows(NullPointerException.class,
                 () -> new DoubleInstructionParser().parse(null));
-        assertEquals(exception.getMessage(), "String arguments must not be null.");
+        assertEquals("String arguments must not be null.", exception.getMessage());
     }
 
     @Test
     void parse_BadFormat_ExceptionThrown() {
-        Throwable exception = assertThrows(IllegalArgumentException.class,
+        Throwable exception = assertThrows(FileFormatException.class,
                 () -> new DoubleInstructionParser().parse("1aaa a1"));
-        assertEquals(exception.getMessage(), "Bad string format.");
+        assertEquals("Bad format.", exception.getMessage());
     }
 
     @Test
     void parse_NoOperation_ExceptionThrown() {
         Throwable exception = assertThrows(IllegalArgumentException.class,
                 () -> new DoubleInstructionParser().parse("aaa 1"));
-        assertEquals(exception.getMessage(), "No operation type found for name aaa");
+        assertEquals("No operation type found for name aaa", exception.getMessage());
     }
 
     @Test

@@ -1,7 +1,6 @@
 package cz.verbovsky.calculator;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,7 +57,7 @@ public class AppTest {
     void main_NullParam_ExceptionThrown() {
         Throwable exception = assertThrows(NullPointerException.class,
                 () -> App.main(null));
-        assertEquals(exception.getMessage(), "Arguments must not be null.");
+        assertEquals("Arguments must not be null.", exception.getMessage());
     }
 
     @Test

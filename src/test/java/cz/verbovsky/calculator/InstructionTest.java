@@ -15,14 +15,14 @@ class InstructionTest {
     void constructor_NullAs1stParam_ExceptionThrown() {
         Throwable exception = assertThrows(NullPointerException.class,
                 () -> new Instruction<>(null, 1d));
-        assertEquals(exception.getMessage(), "OperationType must not be null.");
+        assertEquals("OperationType must not be null.", exception.getMessage());
     }
 
     @Test
     void constructor_NullAs2ndParam_ExceptionThrown() {
         Throwable exception = assertThrows(NullPointerException.class,
                 () -> new Instruction<>(DoubleOperationTypes.APPLY, null));
-        assertEquals(exception.getMessage(), "Value must not be null.");
+        assertEquals("Value must not be null.", exception.getMessage());
     }
 
     @Test
@@ -46,9 +46,9 @@ class InstructionTest {
             Double value = 1d;
             OperationType<Double> mockedOperationType = mock(OperationType.class);
             Instruction<Double> instruction = new Instruction<>(mockedOperationType, value);
-            instruction.applyToValue((Double) null);
+            instruction.applyToValue(null);
         });
-        assertEquals(exception.getMessage(), "Arguments must not be null.");
+        assertEquals("Arguments must not be null.", exception.getMessage());
     }
 
     @Test

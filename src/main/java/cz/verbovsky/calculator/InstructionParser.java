@@ -17,5 +17,5 @@ public interface InstructionParser<T> {
      *
      * @return instance of {@link Instruction} based on given parameters.
      */
-    Instruction<T> parse(String string);
+    Instruction<T> parse(String string) throws FileFormatException;
 }

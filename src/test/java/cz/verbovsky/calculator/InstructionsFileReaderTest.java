@@ -4,6 +4,8 @@ import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import static org.mockito.Mockito.*;
@@ -42,7 +44,7 @@ class InstructionsFileReaderTest {
     void constructor_NullParam_ExceptionThrown() {
         Throwable exception = assertThrows(NullPointerException.class,
                 () -> new InstructionsFileReader<Double>(null));
-        assertEquals(exception.getMessage(), "Parser argument must not be null.");
+        assertEquals("Parser argument must not be null.", exception.getMessage());
     }
 
     @Test
@@ -52,7 +54,7 @@ class InstructionsFileReaderTest {
                     new InstructionsFileReader<>(parser);
             instructionsFileReader.read(null);
         });
-        assertEquals(exception.getMessage(), "FileName argument must not be null.");
+        assertEquals("FileName argument must not be null.", exception.getMessage());
     }
 
     @Test
@@ -62,54 +64,54 @@ class InstructionsFileReaderTest {
                     new InstructionsFileReader<>(parser);
             instructionsFileReader.read("");
         });
-        assertEquals(exception.getMessage(), "FileName argument must not be empty.");
+        assertEquals("FileName argument must not be empty.", exception.getMessage());
     }
 
     @Test
     void read_NonExistingFile_ExceptionThrown() {
-        Throwable exception = assertThrows(RuntimeException.class, () -> {
+        Throwable exception = assertThrows(FileNotFoundException.class, () -> {
             InstructionsFileReader<Double> instructionsFileReader =
                     new InstructionsFileReader<>(parser);
             instructionsFileReader.read("file.txt");
         });
-        assertEquals(exception.getMessage(), "IOException during file reading - file.txt");
+        assertEquals("File 'file.txt' does not exist", exception.getMessage());
     }
 
     @Test
     void read_EmptyFile_ExceptionThrown() {
-        Throwable exception = assertThrows(IllegalStateException.class, () -> {
+        Throwable exception = assertThrows(FileFormatException.class, () -> {
             InstructionsFileReader<Double> instructionsFileReader =
                     new InstructionsFileReader<>(parser);
             String file = classLoader.getResource("emptyFile.txt").getFile();
             instructionsFileReader.read(file);
         });
-        assertEquals(exception.getMessage(), "Initialization operation must be defined.");
+        assertEquals("Initialization operation must be defined.", exception.getMessage());
     }
 
     @Test
     void read_WithoutInitOperationFile_ExceptionThrown() {
-        Throwable exception = assertThrows(IllegalStateException.class, () -> {
+        Throwable exception = assertThrows(FileFormatException.class, () -> {
             InstructionsFileReader<Double> instructionsFileReader =
                     new InstructionsFileReader<>(parser);
             String file = classLoader.getResource("withoutInitOperationFile.txt").getFile();
             instructionsFileReader.read(file);
         });
-        assertEquals(exception.getMessage(), "Initialization operation must be defined.");
+        assertEquals("Initialization operation must be defined.", exception.getMessage());
     }
 
     @Test
     void read_UnknownInstructionFile_ExceptionThrown() {
-        Throwable exception = assertThrows(NullPointerException.class, () -> {
+        Throwable exception = assertThrows(FileFormatException.class, () -> {
             InstructionsFileReader<Double> instructionsFileReader =
                     new InstructionsFileReader<>(parser);
             String file = classLoader.getResource("unknownInstructionFile.txt").getFile();
             instructionsFileReader.read(file);
         });
-        assertEquals(exception.getMessage(), "Instruction must not be null.");
+        assertEquals("Instruction must not be null.", exception.getMessage());
     }
 
     @Test
-    void read() {
+    void read() throws IOException {
         InstructionsFileReader<Double> instructionsFileReader =
                 new InstructionsFileReader<>(parser);
         String file = classLoader.getResource("testFile.txt").getFile();
@@ -136,7 +138,7 @@ class InstructionsFileReaderTest {
     }
 
     @Test
-    void read_OnlyInitInstruction() {
+    void read_OnlyInitInstruction() throws IOException {
         InstructionsFileReader<Double> instructionsFileReader =
                 new InstructionsFileReader<>(parser);
         String file = classLoader.getResource("onlyInitInstructionFile.txt").getFile();

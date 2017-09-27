@@ -20,14 +20,14 @@ class DoubleOperationTypesTest {
     void getOperationTypeByName_NullParam_ExceptionThrown() {
         Throwable exception = assertThrows(NullPointerException.class,
                 () -> DoubleOperationTypes.getOperationTypeByName(null));
-        assertEquals(exception.getMessage(), "Name must not be null.");
+        assertEquals("Name must not be null.", exception.getMessage());
     }
 
     @Test
     void getOperationTypeByName_UnknownOperation_ExceptionThrown() {
         Throwable exception = assertThrows(IllegalArgumentException.class,
                 () -> DoubleOperationTypes.getOperationTypeByName("unknown"));
-        assertEquals(exception.getMessage(), "No operation type found for name unknown");
+        assertEquals("No operation type found for name unknown", exception.getMessage());
     }
 
     @Test

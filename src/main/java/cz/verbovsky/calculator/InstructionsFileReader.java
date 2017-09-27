@@ -36,7 +36,7 @@ public class InstructionsFileReader<T> {
      *
      * @return LinkedList of the instructions. The last instruction is the initialization instruction
      */
-    public LinkedList<Instruction<T>> read(String fileName) {
+    public LinkedList<Instruction<T>> read(String fileName) throws IOException, FileFormatException {
         LineIterator lineIterator = getLineIterator(fileName);
 
         LinkedList<Instruction<T>> instructionsList = new LinkedList<>();
@@ -46,7 +46,9 @@ public class InstructionsFileReader<T> {
         while (lineIterator.hasNext() && !applyFound) {
             String line = lineIterator.nextLine();
             Instruction<T> instruction = parser.parse(line);
-            Objects.requireNonNull(instruction, "Instruction must not be null.");
+            if (instruction == null) {
+                throw new FileFormatException("Instruction must not be null.");
+            }
             instructionsList.add(instruction);
             if (instruction.getOperationType().isInitializationOperation()) {
                 applyFound = true;
@@ -54,25 +56,22 @@ public class InstructionsFileReader<T> {
         }
 
         if (!applyFound) {
-            throw new IllegalStateException("Initialization operation must be defined.");
+            throw new FileFormatException("Initialization operation must be defined.");
         }
 
         return instructionsList;
     }
 
-    private LineIterator getLineIterator(String fileName) {
+    private LineIterator getLineIterator(String fileName) throws IOException {
         Objects.requireNonNull(fileName, "FileName argument must not be null.");
         if (fileName.isEmpty()) {
             throw new IllegalArgumentException("FileName argument must not be empty.");
         }
 
         LineIterator lineIterator;
-        try {
-            File file = FileUtils.getFile(fileName);
-            lineIterator = FileUtils.lineIterator(file);
-        } catch (IOException e) {
-            throw new RuntimeException("IOException during file reading - " + fileName, e);
-        }
+        File file = FileUtils.getFile(fileName);
+        lineIterator = FileUtils.lineIterator(file);
+
         return lineIterator;
     }
 

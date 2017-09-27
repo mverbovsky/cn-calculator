@@ -22,17 +22,21 @@ import java.util.Objects;
 public class DoubleInstructionParser implements InstructionParser<Double> {
 
     @Override
-    public Instruction<Double> parse(String string) {
+    public Instruction<Double> parse(String string) throws FileFormatException {
         Objects.requireNonNull(string, "String arguments must not be null.");
         if (!string.matches("[a-z]+\\s+[0-9]{1,13}(\\.[0-9]*)?")) {
-            throw new IllegalArgumentException("Bad string format.");
+            throw new FileFormatException("Bad format.");
         }
         String[] split = string.split("\\s+");
 
-
-        OperationType<Double> operationType = DoubleOperationTypes.getOperationTypeByName(split[0]);
-        Double value = Double.valueOf(split[1]);
-
-        return new Instruction<>(operationType, value);
+        try {
+            OperationType<Double> operationType = DoubleOperationTypes.getOperationTypeByName(split[0]);
+            Double value = Double.valueOf(split[1]);
+            return new Instruction<>(operationType, value);
+        } catch (NumberFormatException e) {
+            throw new FileFormatException(e.getMessage(), e);
+        } catch (IllegalArgumentException e) {
+            throw new FileFormatException(e.getMessage(), e);
+        }
     }
 }
